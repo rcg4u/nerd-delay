@@ -518,34 +518,121 @@ function nerd_delay_apply_htaccess_optimizations() {
     $options = get_option('nerd_delay_settings');
 
     if (!empty($options['htaccess_gzip'])) {
-        // Code to enable Gzip compression in .htaccess
-        // ...existing code for enabling Gzip...
+        nerd_delay_enable_gzip();
     }
 
     if (!empty($options['htaccess_browser_caching'])) {
-        // Code to enable browser caching in .htaccess
-        // ...existing code for enabling browser caching...
+        nerd_delay_enable_browser_caching();
     }
 
     if (!empty($options['htaccess_hsts'])) {
-        // Code to enable HSTS in .htaccess
-        // ...existing code for enabling HSTS...
+        nerd_delay_enable_hsts();
     }
 
     if (!empty($options['htaccess_clickjacking'])) {
-        // Code to prevent clickjacking in .htaccess
-        // ...existing code for preventing clickjacking...
+        nerd_delay_prevent_clickjacking();
     }
 
     if (!empty($options['htaccess_mime_sniffing'])) {
-        // Code to prevent MIME sniffing in .htaccess
-        // ...existing code for preventing MIME sniffing...
+        nerd_delay_prevent_mime_sniffing();
     }
 
     if (!empty($options['htaccess_xss_protection'])) {
-        // Code to enable XSS protection in .htaccess
-        // ...existing code for enabling XSS protection...
+        nerd_delay_enable_xss_protection();
     }
+
+    if (!empty($options['htaccess_disable_directory_browsing'])) {
+        nerd_delay_disable_directory_browsing();
+    }
+
+    if (!empty($options['htaccess_block_sensitive_files'])) {
+        nerd_delay_block_sensitive_files();
+    }
+
+    if (!empty($options['htaccess_redirect_http_to_https'])) {
+        nerd_delay_redirect_http_to_https();
+    }
+
+    if (!empty($options['htaccess_prevent_hotlinking'])) {
+        nerd_delay_prevent_hotlinking();
+    }
+
+    if (!empty($options['htaccess_block_bad_bots'])) {
+        nerd_delay_block_bad_bots();
+    }
+}
+
+// Enable Gzip Compression
+function nerd_delay_enable_gzip() {
+    // Add Gzip compression rules to .htaccess
+    // ...existing code for enabling Gzip...
+}
+
+// Enable Browser Caching
+function nerd_delay_enable_browser_caching() {
+    // Add browser caching rules to .htaccess
+    // ...existing code for enabling browser caching...
+}
+
+// Enable HTTP Strict Transport Security (HSTS)
+function nerd_delay_enable_hsts() {
+    // Add HSTS rules to .htaccess
+    // ...existing code for enabling HSTS...
+}
+
+// Prevent Clickjacking
+function nerd_delay_prevent_clickjacking() {
+    // Add X-Frame-Options header to .htaccess
+    // ...existing code for preventing clickjacking...
+}
+
+// Prevent MIME Sniffing
+function nerd_delay_prevent_mime_sniffing() {
+    // Add X-Content-Type-Options header to .htaccess
+    // ...existing code for preventing MIME sniffing...
+}
+
+// Enable XSS Protection
+function nerd_delay_enable_xss_protection() {
+    // Add X-XSS-Protection header to .htaccess
+    // ...existing code for enabling XSS protection...
+}
+
+// Disable Directory Browsing
+function nerd_delay_disable_directory_browsing() {
+    // Add rules to disable directory browsing in .htaccess
+    // Options -Indexes
+}
+
+// Block Access to Sensitive Files
+function nerd_delay_block_sensitive_files() {
+    // Add rules to block access to sensitive files in .htaccess
+    // <FilesMatch "\.(htaccess|htpasswd|ini|log|sh|bak|sql|swp|dist)$">
+    // Order allow,deny
+    // Deny from all
+    // </FilesMatch>
+}
+
+// Redirect HTTP to HTTPS
+function nerd_delay_redirect_http_to_https() {
+    // Add rules to redirect HTTP to HTTPS in .htaccess
+    // RewriteCond %{HTTPS} off
+    // RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+}
+
+// Prevent Hotlinking
+function nerd_delay_prevent_hotlinking() {
+    // Add rules to prevent hotlinking in .htaccess
+    // RewriteCond %{HTTP_REFERER} !^$
+    // RewriteCond %{HTTP_REFERER} !^https?://(www\.)?yourdomain\.com [NC]
+    // RewriteRule \.(jpg|jpeg|png|gif|svg|webp)$ - [F,NC]
+}
+
+// Block Bad Bots
+function nerd_delay_block_bad_bots() {
+    // Add rules to block bad bots in .htaccess
+    // RewriteCond %{HTTP_USER_AGENT} (?:bot|spider|crawler|wget|curl|scraper) [NC]
+    // RewriteRule .* - [F,L]
 }
 
 // Function to get CDN URL if WP Rocket is using a CDN

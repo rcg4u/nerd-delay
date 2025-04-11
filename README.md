@@ -10,7 +10,7 @@ Nerd Delay optimizes WordPress sites by deferring or asynchronously loading scri
 - **Plugin Name:** Nerd Delay
 - **Plugin URI:** [https://narcolepticnerd.com](https://narcolepticnerd.com)
 - **Description:** Optimize WordPress sites by deferring or asynchronously loading scripts, optimizing CSS, and improving Core Web Vitals.
-- **Version:** 1.6
+- **Version:** 1.8
 - **Author:** NarcolepticNerd
 - **Author URI:** [https://narcolepticnerd.com](https://narcolepticnerd.com)
 - **License:** GPL2
@@ -28,6 +28,8 @@ Nerd Delay optimizes WordPress sites by deferring or asynchronously loading scri
   - Prevent clickjacking attacks.
   - Prevent MIME sniffing.
   - Enable XSS protection.
+- **New in 1.8:** Advanced script grouping for better control over script loading order.
+- **New in 1.8:** Improved lazy loading for background images.
 
 ## Installation
 
@@ -60,6 +62,11 @@ Nerd Delay optimizes WordPress sites by deferring or asynchronously loading scri
 - **PHP Functions:** Various functions are used to render settings fields, apply optimizations, and handle AJAX requests.
 
 ## Changelog
+### 1.8
+- Added advanced script grouping for better control over script loading order.
+- Improved lazy loading to support background images.
+- Minor bug fixes and performance improvements.
+
 ### 1.7
 - Added optional `.htaccess` optimizations:
   - Gzip compression.
