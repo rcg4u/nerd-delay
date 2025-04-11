@@ -2,6 +2,9 @@
 
 Nerd Delay is a WordPress plugin designed to optimize your website by deferring or asynchronously loading scripts, optimizing CSS, and improving Core Web Vitals. This plugin helps enhance your site's performance and user experience.
 
+## Description
+Nerd Delay optimizes WordPress sites by deferring or asynchronously loading scripts, optimizing CSS, and improving Core Web Vitals. It now includes optional `.htaccess` optimizations for enhanced performance and security.
+
 ## Plugin Information
 
 - **Plugin Name:** Nerd Delay
@@ -14,18 +17,23 @@ Nerd Delay is a WordPress plugin designed to optimize your website by deferring 
 
 ## Features
 
-- **Defer or Async Scripts:** Choose to defer or asynchronously load JavaScript files to improve page load times.
-- **Preload CSS:** Preload CSS files to enhance the Largest Contentful Paint (LCP) metric.
-- **Inline Critical CSS:** Inline critical CSS to improve rendering performance.
-- **Defer Non-Critical CSS:** Defer loading of non-critical CSS to improve First Input Delay (FID).
-- **Lazy Load Images:** Enable lazy loading for images to improve LCP.
-- **Font Display Swap:** Use `font-display: swap` to improve Cumulative Layout Shift (CLS).
+- Defer or async JavaScript loading.
+- Preload or inline critical CSS.
+- Lazy load images to improve Largest Contentful Paint (LCP).
+- Font display swap to improve Cumulative Layout Shift (CLS).
+- Optional `.htaccess` optimizations:
+  - Enable Gzip compression.
+  - Enable browser caching.
+  - Enable HTTP Strict Transport Security (HSTS).
+  - Prevent clickjacking attacks.
+  - Prevent MIME sniffing.
+  - Enable XSS protection.
 
 ## Installation
 
-1. Upload the `nerd-delay` folder to the `/wp-content/plugins/` directory.
+1. Upload the plugin files to the `/wp-content/plugins/nerd-delay` directory.
 2. Activate the plugin through the 'Plugins' menu in WordPress.
-3. Configure the plugin settings under the 'Settings' or 'Tools' menu in the WordPress admin dashboard.
+3. Configure settings under "Settings > Nerd Delay".
 
 ## Usage
 
@@ -50,6 +58,20 @@ Nerd Delay is a WordPress plugin designed to optimize your website by deferring 
 - **AJAX Handlers:** Implemented for scanning and saving assets.
 - **JavaScript:** Used for handling user interactions and updating the UI dynamically.
 - **PHP Functions:** Various functions are used to render settings fields, apply optimizations, and handle AJAX requests.
+
+## Changelog
+### 1.7
+- Added optional `.htaccess` optimizations:
+  - Gzip compression.
+  - Browser caching.
+  - HSTS.
+  - Clickjacking prevention.
+  - MIME sniffing prevention.
+  - XSS protection.
+- Improved settings UI for better usability.
+
+### 1.6
+- Initial release.
 
 ## License
 

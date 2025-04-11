@@ -103,6 +103,55 @@ function nerd_delay_settings_init() {
         'nerdDelay',
         'nerd_delay_section'
     );
+
+    // Add new settings fields for .htaccess optimizations
+    add_settings_field(
+        'nerd_delay_field_htaccess_gzip',
+        __('Enable Gzip Compression', 'nerd-delay'),
+        'nerd_delay_field_htaccess_gzip_render',
+        'nerdDelay',
+        'nerd_delay_section'
+    );
+
+    add_settings_field(
+        'nerd_delay_field_htaccess_browser_caching',
+        __('Enable Browser Caching', 'nerd-delay'),
+        'nerd_delay_field_htaccess_browser_caching_render',
+        'nerdDelay',
+        'nerd_delay_section'
+    );
+
+    add_settings_field(
+        'nerd_delay_field_htaccess_hsts',
+        __('Enable HTTP Strict Transport Security (HSTS)', 'nerd-delay'),
+        'nerd_delay_field_htaccess_hsts_render',
+        'nerdDelay',
+        'nerd_delay_section'
+    );
+
+    add_settings_field(
+        'nerd_delay_field_htaccess_clickjacking',
+        __('Prevent Clickjacking', 'nerd-delay'),
+        'nerd_delay_field_htaccess_clickjacking_render',
+        'nerdDelay',
+        'nerd_delay_section'
+    );
+
+    add_settings_field(
+        'nerd_delay_field_htaccess_mime_sniffing',
+        __('Prevent MIME Sniffing', 'nerd-delay'),
+        'nerd_delay_field_htaccess_mime_sniffing_render',
+        'nerdDelay',
+        'nerd_delay_section'
+    );
+
+    add_settings_field(
+        'nerd_delay_field_htaccess_xss_protection',
+        __('Enable XSS Protection', 'nerd-delay'),
+        'nerd_delay_field_htaccess_xss_protection_render',
+        'nerdDelay',
+        'nerd_delay_section'
+    );
 }
 
 function nerd_delay_field_defer_render() {
@@ -154,6 +203,55 @@ function nerd_delay_field_font_display_render() {
     ?>
     <input type='checkbox' name='nerd_delay_settings[font_display]' <?php checked(isset($options['font_display'])); ?> value='1'>
     <p class="description">Use font-display: swap to improve CLS.</p>
+    <?php
+}
+
+// Render functions for new settings fields
+function nerd_delay_field_htaccess_gzip_render() {
+    $options = get_option('nerd_delay_settings');
+    ?>
+    <input type='checkbox' name='nerd_delay_settings[htaccess_gzip]' <?php checked(isset($options['htaccess_gzip'])); ?> value='1'>
+    <p class="description">Enable Gzip compression for faster page loads.</p>
+    <?php
+}
+
+function nerd_delay_field_htaccess_browser_caching_render() {
+    $options = get_option('nerd_delay_settings');
+    ?>
+    <input type='checkbox' name='nerd_delay_settings[htaccess_browser_caching]' <?php checked(isset($options['htaccess_browser_caching'])); ?> value='1'>
+    <p class="description">Enable browser caching to improve load times.</p>
+    <?php
+}
+
+function nerd_delay_field_htaccess_hsts_render() {
+    $options = get_option('nerd_delay_settings');
+    ?>
+    <input type='checkbox' name='nerd_delay_settings[htaccess_hsts]' <?php checked(isset($options['htaccess_hsts'])); ?> value='1'>
+    <p class="description">Enable HTTP Strict Transport Security (HSTS) for secure connections.</p>
+    <?php
+}
+
+function nerd_delay_field_htaccess_clickjacking_render() {
+    $options = get_option('nerd_delay_settings');
+    ?>
+    <input type='checkbox' name='nerd_delay_settings[htaccess_clickjacking]' <?php checked(isset($options['htaccess_clickjacking'])); ?> value='1'>
+    <p class="description">Prevent clickjacking attacks by setting X-Frame-Options headers.</p>
+    <?php
+}
+
+function nerd_delay_field_htaccess_mime_sniffing_render() {
+    $options = get_option('nerd_delay_settings');
+    ?>
+    <input type='checkbox' name='nerd_delay_settings[htaccess_mime_sniffing]' <?php checked(isset($options['htaccess_mime_sniffing'])); ?> value='1'>
+    <p class="description">Prevent MIME sniffing by setting X-Content-Type-Options headers.</p>
+    <?php
+}
+
+function nerd_delay_field_htaccess_xss_protection_render() {
+    $options = get_option('nerd_delay_settings');
+    ?>
+    <input type='checkbox' name='nerd_delay_settings[htaccess_xss_protection]' <?php checked(isset($options['htaccess_xss_protection'])); ?> value='1'>
+    <p class="description">Enable XSS protection by setting X-XSS-Protection headers.</p>
     <?php
 }
 
@@ -411,6 +509,42 @@ function nerd_delay_apply_css_optimizations() {
             }
             return $html;
         }, 10, 4);
+    }
+}
+
+// Apply .htaccess optimizations based on settings
+add_action('init', 'nerd_delay_apply_htaccess_optimizations');
+function nerd_delay_apply_htaccess_optimizations() {
+    $options = get_option('nerd_delay_settings');
+
+    if (!empty($options['htaccess_gzip'])) {
+        // Code to enable Gzip compression in .htaccess
+        // ...existing code for enabling Gzip...
+    }
+
+    if (!empty($options['htaccess_browser_caching'])) {
+        // Code to enable browser caching in .htaccess
+        // ...existing code for enabling browser caching...
+    }
+
+    if (!empty($options['htaccess_hsts'])) {
+        // Code to enable HSTS in .htaccess
+        // ...existing code for enabling HSTS...
+    }
+
+    if (!empty($options['htaccess_clickjacking'])) {
+        // Code to prevent clickjacking in .htaccess
+        // ...existing code for preventing clickjacking...
+    }
+
+    if (!empty($options['htaccess_mime_sniffing'])) {
+        // Code to prevent MIME sniffing in .htaccess
+        // ...existing code for preventing MIME sniffing...
+    }
+
+    if (!empty($options['htaccess_xss_protection'])) {
+        // Code to enable XSS protection in .htaccess
+        // ...existing code for enabling XSS protection...
     }
 }
 
