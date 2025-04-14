@@ -10,7 +10,7 @@ Nerd Delay optimizes WordPress sites by deferring or asynchronously loading scri
 - **Plugin Name:** Nerd Delay
 - **Plugin URI:** [https://narcolepticnerd.com](https://narcolepticnerd.com)
 - **Description:** Optimize WordPress sites by deferring or asynchronously loading scripts, optimizing CSS, and improving Core Web Vitals.
-- **Version:** 1.9
+- **Version:** 1.9.1
 - **Author:** NarcolepticNerd
 - **Author URI:** [https://narcolepticnerd.com](https://narcolepticnerd.com)
 - **License:** GPL2
@@ -33,6 +33,8 @@ Nerd Delay optimizes WordPress sites by deferring or asynchronously loading scri
   - Redirect HTTP to HTTPS.
   - Prevent hotlinking.
   - Block bad bots.
+- **New in 1.9.1:** 
+  - Fully implemented `.htaccess` optimization functions for better performance and security.
 - **New in 1.9:** 
   - Disable XML-RPC.
   - Disable REST API for non-authenticated users.
@@ -77,6 +79,9 @@ Nerd Delay optimizes WordPress sites by deferring or asynchronously loading scri
 - **PHP Functions:** Various functions are used to render settings fields, apply optimizations, and handle AJAX requests.
 
 ## Changelog
+### 1.9.1
+- Fully implemented `.htaccess` optimization functions for better performance and security.
+
 ### 1.9
 - Added new settings:
   - Disable XML-RPC.
