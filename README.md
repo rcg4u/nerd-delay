@@ -10,7 +10,7 @@ Nerd Delay optimizes WordPress sites by deferring or asynchronously loading scri
 - **Plugin Name:** Nerd Delay
 - **Plugin URI:** [https://narcolepticnerd.com](https://narcolepticnerd.com)
 - **Description:** Optimize WordPress sites by deferring or asynchronously loading scripts, optimizing CSS, and improving Core Web Vitals.
-- **Version:** 1.8
+- **Version:** 1.9
 - **Author:** NarcolepticNerd
 - **Author URI:** [https://narcolepticnerd.com](https://narcolepticnerd.com)
 - **License:** GPL2
@@ -28,6 +28,21 @@ Nerd Delay optimizes WordPress sites by deferring or asynchronously loading scri
   - Prevent clickjacking attacks.
   - Prevent MIME sniffing.
   - Enable XSS protection.
+  - Disable directory browsing.
+  - Block access to sensitive files.
+  - Redirect HTTP to HTTPS.
+  - Prevent hotlinking.
+  - Block bad bots.
+- **New in 1.9:** 
+  - Disable XML-RPC.
+  - Disable REST API for non-authenticated users.
+  - Enable Content Security Policy (CSP).
+  - Enable Referrer Policy.
+  - Enable DNS Prefetching.
+  - Disable WordPress Heartbeat API.
+  - Disable WordPress Emojis.
+  - Enable HTTP/2 Push.
+  - Enable automatic database optimization and cleanup.
 - **New in 1.8:** Advanced script grouping for better control over script loading order.
 - **New in 1.8:** Improved lazy loading for background images.
 
@@ -62,9 +77,32 @@ Nerd Delay optimizes WordPress sites by deferring or asynchronously loading scri
 - **PHP Functions:** Various functions are used to render settings fields, apply optimizations, and handle AJAX requests.
 
 ## Changelog
+### 1.9
+- Added new settings:
+  - Disable XML-RPC.
+  - Disable REST API for non-authenticated users.
+  - Enable Content Security Policy (CSP).
+  - Enable Referrer Policy.
+  - Enable DNS Prefetching.
+  - Disable WordPress Heartbeat API.
+  - Disable WordPress Emojis.
+  - Enable HTTP/2 Push.
+  - Enable automatic database optimization and cleanup.
+- Minor documentation updates.
+
 ### 1.8
 - Added advanced script grouping for better control over script loading order.
 - Improved lazy loading to support background images.
+- Added new settings:
+  - Disable XML-RPC.
+  - Disable REST API for non-authenticated users.
+  - Enable Content Security Policy (CSP).
+  - Enable Referrer Policy.
+  - Enable DNS Prefetching.
+  - Disable WordPress Heartbeat API.
+  - Disable WordPress Emojis.
+  - Enable HTTP/2 Push.
+  - Enable automatic database optimization and cleanup.
 - Minor bug fixes and performance improvements.
 
 ### 1.7

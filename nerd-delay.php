@@ -152,6 +152,119 @@ function nerd_delay_settings_init() {
         'nerdDelay',
         'nerd_delay_section'
     );
+
+    add_settings_field(
+        'nerd_delay_field_htaccess_disable_directory_browsing',
+        __('Disable Directory Browsing', 'nerd-delay'),
+        'nerd_delay_field_htaccess_disable_directory_browsing_render',
+        'nerdDelay',
+        'nerd_delay_section'
+    );
+
+    add_settings_field(
+        'nerd_delay_field_htaccess_block_sensitive_files',
+        __('Block Sensitive Files', 'nerd-delay'),
+        'nerd_delay_field_htaccess_block_sensitive_files_render',
+        'nerdDelay',
+        'nerd_delay_section'
+    );
+
+    add_settings_field(
+        'nerd_delay_field_htaccess_redirect_http_to_https',
+        __('Redirect HTTP to HTTPS', 'nerd-delay'),
+        'nerd_delay_field_htaccess_redirect_http_to_https_render',
+        'nerdDelay',
+        'nerd_delay_section'
+    );
+
+    add_settings_field(
+        'nerd_delay_field_htaccess_prevent_hotlinking',
+        __('Prevent Hotlinking', 'nerd-delay'),
+        'nerd_delay_field_htaccess_prevent_hotlinking_render',
+        'nerdDelay',
+        'nerd_delay_section'
+    );
+
+    add_settings_field(
+        'nerd_delay_field_htaccess_block_bad_bots',
+        __('Block Bad Bots', 'nerd-delay'),
+        'nerd_delay_field_htaccess_block_bad_bots_render',
+        'nerdDelay',
+        'nerd_delay_section'
+    );
+
+    // Add new settings fields
+    add_settings_field(
+        'nerd_delay_field_disable_xml_rpc',
+        __('Disable XML-RPC', 'nerd-delay'),
+        'nerd_delay_field_disable_xml_rpc_render',
+        'nerdDelay',
+        'nerd_delay_section'
+    );
+
+    add_settings_field(
+        'nerd_delay_field_disable_rest_api',
+        __('Disable REST API for Non-Authenticated Users', 'nerd-delay'),
+        'nerd_delay_field_disable_rest_api_render',
+        'nerdDelay',
+        'nerd_delay_section'
+    );
+
+    add_settings_field(
+        'nerd_delay_field_enable_csp',
+        __('Enable Content Security Policy (CSP)', 'nerd-delay'),
+        'nerd_delay_field_enable_csp_render',
+        'nerdDelay',
+        'nerd_delay_section'
+    );
+
+    add_settings_field(
+        'nerd_delay_field_enable_referrer_policy',
+        __('Enable Referrer Policy', 'nerd-delay'),
+        'nerd_delay_field_enable_referrer_policy_render',
+        'nerdDelay',
+        'nerd_delay_section'
+    );
+
+    add_settings_field(
+        'nerd_delay_field_enable_dns_prefetching',
+        __('Enable DNS Prefetching', 'nerd-delay'),
+        'nerd_delay_field_enable_dns_prefetching_render',
+        'nerdDelay',
+        'nerd_delay_section'
+    );
+
+    add_settings_field(
+        'nerd_delay_field_disable_heartbeat_api',
+        __('Disable WordPress Heartbeat API', 'nerd-delay'),
+        'nerd_delay_field_disable_heartbeat_api_render',
+        'nerdDelay',
+        'nerd_delay_section'
+    );
+
+    add_settings_field(
+        'nerd_delay_field_disable_emojis',
+        __('Disable WordPress Emojis', 'nerd-delay'),
+        'nerd_delay_field_disable_emojis_render',
+        'nerdDelay',
+        'nerd_delay_section'
+    );
+
+    add_settings_field(
+        'nerd_delay_field_enable_http2_push',
+        __('Enable HTTP/2 Push', 'nerd-delay'),
+        'nerd_delay_field_enable_http2_push_render',
+        'nerdDelay',
+        'nerd_delay_section'
+    );
+
+    add_settings_field(
+        'nerd_delay_field_enable_db_optimization',
+        __('Enable Database Optimization', 'nerd-delay'),
+        'nerd_delay_field_enable_db_optimization_render',
+        'nerdDelay',
+        'nerd_delay_section'
+    );
 }
 
 function nerd_delay_field_defer_render() {
@@ -252,6 +365,118 @@ function nerd_delay_field_htaccess_xss_protection_render() {
     ?>
     <input type='checkbox' name='nerd_delay_settings[htaccess_xss_protection]' <?php checked(isset($options['htaccess_xss_protection'])); ?> value='1'>
     <p class="description">Enable XSS protection by setting X-XSS-Protection headers.</p>
+    <?php
+}
+
+function nerd_delay_field_htaccess_disable_directory_browsing_render() {
+    $options = get_option('nerd_delay_settings');
+    ?>
+    <input type='checkbox' name='nerd_delay_settings[htaccess_disable_directory_browsing]' <?php checked(isset($options['htaccess_disable_directory_browsing'])); ?> value='1'>
+    <p class="description">Disable directory browsing for security.</p>
+    <?php
+}
+
+function nerd_delay_field_htaccess_block_sensitive_files_render() {
+    $options = get_option('nerd_delay_settings');
+    ?>
+    <input type='checkbox' name='nerd_delay_settings[htaccess_block_sensitive_files]' <?php checked(isset($options['htaccess_block_sensitive_files'])); ?> value='1'>
+    <p class="description">Block access to sensitive files like .htaccess, .ini, etc.</p>
+    <?php
+}
+
+function nerd_delay_field_htaccess_redirect_http_to_https_render() {
+    $options = get_option('nerd_delay_settings');
+    ?>
+    <input type='checkbox' name='nerd_delay_settings[htaccess_redirect_http_to_https]' <?php checked(isset($options['htaccess_redirect_http_to_https'])); ?> value='1'>
+    <p class="description">Redirect all HTTP traffic to HTTPS.</p>
+    <?php
+}
+
+function nerd_delay_field_htaccess_prevent_hotlinking_render() {
+    $options = get_option('nerd_delay_settings');
+    ?>
+    <input type='checkbox' name='nerd_delay_settings[htaccess_prevent_hotlinking]' <?php checked(isset($options['htaccess_prevent_hotlinking'])); ?> value='1'>
+    <p class="description">Prevent hotlinking of images and other resources.</p>
+    <?php
+}
+
+function nerd_delay_field_htaccess_block_bad_bots_render() {
+    $options = get_option('nerd_delay_settings');
+    ?>
+    <input type='checkbox' name='nerd_delay_settings[htaccess_block_bad_bots]' <?php checked(isset($options['htaccess_block_bad_bots'])); ?> value='1'>
+    <p class="description">Block bad bots from accessing your site.</p>
+    <?php
+}
+
+function nerd_delay_field_disable_xml_rpc_render() {
+    $options = get_option('nerd_delay_settings');
+    ?>
+    <input type='checkbox' name='nerd_delay_settings[disable_xml_rpc]' <?php checked(isset($options['disable_xml_rpc'])); ?> value='1'>
+    <p class="description">Disable XML-RPC to improve security.</p>
+    <?php
+}
+
+function nerd_delay_field_disable_rest_api_render() {
+    $options = get_option('nerd_delay_settings');
+    ?>
+    <input type='checkbox' name='nerd_delay_settings[disable_rest_api]' <?php checked(isset($options['disable_rest_api'])); ?> value='1'>
+    <p class="description">Disable REST API for non-authenticated users.</p>
+    <?php
+}
+
+function nerd_delay_field_enable_csp_render() {
+    $options = get_option('nerd_delay_settings');
+    ?>
+    <input type='checkbox' name='nerd_delay_settings[enable_csp]' <?php checked(isset($options['enable_csp'])); ?> value='1'>
+    <p class="description">Enable Content Security Policy (CSP) to mitigate XSS and data injection attacks.</p>
+    <?php
+}
+
+function nerd_delay_field_enable_referrer_policy_render() {
+    $options = get_option('nerd_delay_settings');
+    ?>
+    <input type='checkbox' name='nerd_delay_settings[enable_referrer_policy]' <?php checked(isset($options['enable_referrer_policy'])); ?> value='1'>
+    <p class="description">Enable Referrer Policy to control referrer information sent with requests.</p>
+    <?php
+}
+
+function nerd_delay_field_enable_dns_prefetching_render() {
+    $options = get_option('nerd_delay_settings');
+    ?>
+    <input type='checkbox' name='nerd_delay_settings[enable_dns_prefetching]' <?php checked(isset($options['enable_dns_prefetching'])); ?> value='1'>
+    <p class="description">Enable DNS prefetching to improve performance for external resources.</p>
+    <?php
+}
+
+function nerd_delay_field_disable_heartbeat_api_render() {
+    $options = get_option('nerd_delay_settings');
+    ?>
+    <input type='checkbox' name='nerd_delay_settings[disable_heartbeat_api]' <?php checked(isset($options['disable_heartbeat_api'])); ?> value='1'>
+    <p class="description">Disable WordPress Heartbeat API to reduce server load.</p>
+    <?php
+}
+
+function nerd_delay_field_disable_emojis_render() {
+    $options = get_option('nerd_delay_settings');
+    ?>
+    <input type='checkbox' name='nerd_delay_settings[disable_emojis]' <?php checked(isset($options['disable_emojis'])); ?> value='1'>
+    <p class="description">Disable WordPress emojis for performance optimization.</p>
+    <?php
+}
+
+function nerd_delay_field_enable_http2_push_render() {
+    $options = get_option('nerd_delay_settings');
+    ?>
+    <input type='checkbox' name='nerd_delay_settings[enable_http2_push]' <?php checked(isset($options['enable_http2_push'])); ?> value='1'>
+    <p class="description">Enable HTTP/2 server push for critical resources.</p>
+    <?php
+}
+
+function nerd_delay_field_enable_db_optimization_render() {
+    $options = get_option('nerd_delay_settings');
+    ?>
+    <input type='checkbox' name='nerd_delay_settings[enable_db_optimization]' <?php checked(isset($options['enable_db_optimization'])); ?> value='1'>
+    <p class="description">Enable automatic database optimization and cleanup.</p>
     <?php
 }
 
