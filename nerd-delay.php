@@ -636,6 +636,8 @@ function nerd_delay_save_assets() {
 
     if (isset($data['load_option'])) {
         foreach ($data['load_option'] as $script => $option) {
+            $script = sanitize_text_field($script);
+            $option = sanitize_text_field($option);
             if ($option === 'defer') {
                 $defer_scripts[] = $script;
             } elseif ($option === 'async') {
@@ -646,6 +648,8 @@ function nerd_delay_save_assets() {
 
     if (isset($data['css_option'])) {
         foreach ($data['css_option'] as $css => $option) {
+            $css = sanitize_text_field($css);
+            $option = sanitize_text_field($option);
             if ($option === 'preload') {
                 $preload_css[] = $css;
             }
@@ -656,7 +660,6 @@ function nerd_delay_save_assets() {
     update_option('nerd_delay_async_scripts', $async_scripts);
     update_option('nerd_delay_preload_css', $preload_css);
 
-    // Return the updated lists for dynamic update
     wp_send_json_success(['defer' => $defer_scripts, 'async' => $async_scripts, 'preloadCss' => $preload_css]);
 }
 
@@ -897,7 +900,12 @@ RewriteRule .* - [F,L]";
 function nerd_delay_update_htaccess($rules) {
     $htaccess_file = ABSPATH . '.htaccess';
     if (is_writable($htaccess_file)) {
-        file_put_contents($htaccess_file, $rules . PHP_EOL, FILE_APPEND);
+        $result = file_put_contents($htaccess_file, $rules . PHP_EOL, FILE_APPEND);
+        if ($result === false) {
+            error_log('Failed to update .htaccess file.');
+        }
+    } else {
+        error_log('.htaccess file is not writable.');
     }
 }
 

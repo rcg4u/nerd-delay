@@ -79,6 +79,19 @@ Nerd Delay optimizes WordPress sites by deferring or asynchronously loading scri
 - **PHP Functions:** Various functions are used to render settings fields, apply optimizations, and handle AJAX requests.
 
 ## Changelog
+### 1.9.2
+
+- **Security Enhancements**:
+  - Added error logging for `.htaccess` updates to ensure any issues with file writing are captured.
+  - Implemented input sanitization for AJAX requests to prevent potential security vulnerabilities.
+
+- **Performance Improvements**:
+  - Ensured conditional loading of admin styles only on relevant pages to optimize asset management.
+
+- **Code Quality**:
+  - Improved error handling in file operations to ensure robustness.
+  - Enhanced code readability and maintainability with consistent formatting and documentation.
+
 ### 1.9.1
 - Fully implemented `.htaccess` optimization functions for better performance and security.
 
