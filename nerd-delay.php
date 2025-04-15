@@ -3,11 +3,13 @@
 Plugin Name: Nerd Delay
 Plugin URI: https://narcolepticnerd.com
 Description: Optimize WordPress sites by deferring or asynchronously loading scripts, optimizing CSS, and improving Core Web Vitals.
-Version: 1.9.1
+Version: 1.9.3
 Author: NarcolepticNerd
 Author URI: https://narcolepticnerd.com
 License: GPL2
 */
+
+define('NERD_DELAY_VERSION', '1.9.3');
 
 // Prevent direct access to the file
 if (!defined('ABSPATH')) {
@@ -273,6 +275,14 @@ function nerd_delay_settings_init() {
         'nerdDelay',
         'nerd_delay_section'
     );
+
+    add_settings_field(
+        'nerd_delay_field_browser_cache_duration',
+        __('Browser Cache Duration (in days)', 'nerd-delay'),
+        'nerd_delay_field_browser_cache_duration_render',
+        'nerdDelay',
+        'nerd_delay_section'
+    );
 }
 
 function nerd_delay_render_toggle_switch($name, $checked) {
@@ -489,6 +499,22 @@ function nerd_delay_field_enable_db_optimization_render() {
     <?php
 }
 
+function nerd_delay_field_browser_cache_duration_render() {
+    $options = get_option('nerd_delay_settings');
+    ?>
+    <input type="number" name="nerd_delay_settings[browser_cache_duration]" value="<?php echo esc_attr($options['browser_cache_duration'] ?? 30); ?>" min="1">
+    <p class="description">Set the browser cache duration in days.</p>
+    <?php
+}
+
+function nerd_delay_field_script_conditions_render() {
+    $options = get_option('nerd_delay_settings');
+    ?>
+    <textarea name="nerd_delay_settings[script_conditions]" rows="5" cols="50"><?php echo esc_textarea($options['script_conditions'] ?? ''); ?></textarea>
+    <p class="description">Specify conditions for script loading (e.g., only on specific pages).</p>
+    <?php
+}
+
 function nerd_delay_settings_section_callback() {
     echo __('Configure the script, CSS, and Core Web Vitals optimization settings.', 'nerd-delay');
 }
@@ -496,7 +522,7 @@ function nerd_delay_settings_section_callback() {
 function nerd_delay_options_page() {
     ?>
     <form action='options.php' method='post'>
-        <h2>Nerd Delay</h2>
+        <h2><?php _e('Nerd Delay', 'nerd-delay'); ?> <small><?php echo __('Version', 'nerd-delay') . ' ' . NERD_DELAY_VERSION; ?></small></h2>
         <?php
         settings_fields('nerdDelay');
         do_settings_sections('nerdDelay');
@@ -504,15 +530,15 @@ function nerd_delay_options_page() {
         ?>
     </form>
     <div class="nerd-delay-info">
-        <h3>Core Web Vitals Optimization</h3>
-        <p><strong>Largest Contentful Paint (LCP):</strong> Preload key resources and lazy load images to improve LCP.</p>
-        <p><strong>First Input Delay (FID):</strong> Defer non-critical JavaScript to improve FID.</p>
-        <p><strong>Cumulative Layout Shift (CLS):</strong> Use font-display: swap and set size attributes for images to reduce CLS.</p>
+        <h3><?php _e('Core Web Vitals Optimization', 'nerd-delay'); ?></h3>
+        <p><?php _e('Largest Contentful Paint (LCP): Preload key resources and lazy load images to improve LCP.', 'nerd-delay'); ?></p>
+        <p><?php _e('First Input Delay (FID): Defer non-critical JavaScript to improve FID.', 'nerd-delay'); ?></p>
+        <p><?php _e('Cumulative Layout Shift (CLS): Use font-display: swap and set size attributes for images to reduce CLS.', 'nerd-delay'); ?></p>
     </div>
-    <button id="nerd-delay-scan">Scan for Scripts and CSS</button>
+    <button id="nerd-delay-scan"><?php _e('Scan for Scripts and CSS', 'nerd-delay'); ?></button>
     <div id="nerd-delay-scripts"></div>
     <div id="nerd-delay-active-scripts">
-        <h3>Active Scripts and CSS</h3>
+        <h3><?php _e('Active Scripts and CSS', 'nerd-delay'); ?></h3>
         <div id="active-scripts-table">
             <?php nerd_delay_display_active_scripts(); ?>
         </div>
@@ -521,36 +547,23 @@ function nerd_delay_options_page() {
         document.getElementById('nerd-delay-scan').addEventListener('click', function() {
             var data = {
                 'action': 'nerd_delay_scan_assets',
+                'security': '<?php echo wp_create_nonce("nerd_delay_nonce"); ?>'
             };
             jQuery.post(ajaxurl, data, function(response) {
                 document.getElementById('nerd-delay-scripts').innerHTML = response;
             });
         });
 
-        function updateActiveScriptsTable(deferScripts, asyncScripts, preloadCss) {
-            var tableHtml = '<table><thead><tr><th>Asset</th><th>Status</th></tr></thead><tbody>';
-            deferScripts.forEach(function(script) {
-                tableHtml += '<tr><td>' + script + '</td><td><select data-script="' + script + '"><option value="off">Off</option><option value="defer" selected>Defer</option><option value="async">Async</option></select></td></tr>';
-            });
-            asyncScripts.forEach(function(script) {
-                tableHtml += '<tr><td>' + script + '</td><td><select data-script="' + script + '"><option value="off">Off</option><option value="defer">Defer</option><option value="async" selected>Async</option></select></td></tr>';
-            });
-            preloadCss.forEach(function(css) {
-                tableHtml += '<tr><td>' + css + '</td><td><select data-css="' + css + '"><option value="off">Off</option><option value="preload" selected>Preload</option></select></td></tr>';
-            });
-            tableHtml += '</tbody></table>';
-            document.getElementById('active-scripts-table').innerHTML = tableHtml;
-        }
-
         document.addEventListener('click', function(event) {
             if (event.target && event.target.id === 'save-scripts') {
                 var formData = jQuery('#nerd-delay-scripts-form').serialize();
                 jQuery.post(ajaxurl, {
                     'action': 'nerd_delay_save_assets',
+                    'security': '<?php echo wp_create_nonce("nerd_delay_nonce"); ?>',
                     'data': formData
                 }, function(response) {
                     alert('Assets saved successfully!');
-                    updateActiveScriptsTable(response.defer, response.async, response.preloadCss);
+                    updateActiveScriptsTable(response.data.defer, response.data.async, response.data.preloadCss);
                 });
             }
         });
@@ -561,6 +574,8 @@ function nerd_delay_options_page() {
 // AJAX handler for scanning scripts and CSS
 add_action('wp_ajax_nerd_delay_scan_assets', 'nerd_delay_scan_assets');
 function nerd_delay_scan_assets() {
+    check_ajax_referer('nerd_delay_nonce', 'security');
+
     $url = home_url();
     $response = wp_remote_get($url);
     if (is_wp_error($response)) {
@@ -629,6 +644,8 @@ function nerd_delay_suggest_option($script) {
 // AJAX handler for saving scripts and CSS
 add_action('wp_ajax_nerd_delay_save_assets', 'nerd_delay_save_assets');
 function nerd_delay_save_assets() {
+    check_ajax_referer('nerd_delay_nonce', 'security');
+
     parse_str($_POST['data'], $data);
     $defer_scripts = [];
     $async_scripts = [];
@@ -920,4 +937,30 @@ function nerd_delay_get_cdn_url($url) {
         }
     }
     return $url;
+}
+
+function nerd_delay_log($message) {
+    if (WP_DEBUG) {
+        error_log('[Nerd Delay] ' . $message);
+    }
+}
+
+function nerd_delay_admin_notice($message, $type = 'success') {
+    echo '<div class="notice notice-' . esc_attr($type) . ' is-dismissible"><p>' . esc_html($message) . '</p></div>';
+}
+
+function nerd_delay_export_settings() {
+    $options = get_option('nerd_delay_settings');
+    header('Content-Type: application/json');
+    header('Content-Disposition: attachment; filename="nerd-delay-settings.json"');
+    echo json_encode($options);
+    exit;
+}
+
+function nerd_delay_import_settings($file) {
+    $json = file_get_contents($file);
+    $settings = json_decode($json, true);
+    if (json_last_error() === JSON_ERROR_NONE) {
+        update_option('nerd_delay_settings', $settings);
+    }
 }
