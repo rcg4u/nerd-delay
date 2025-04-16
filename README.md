@@ -2,7 +2,7 @@
 
 ## Description
 
-Nerd Delay optimizes WordPress sites by deferring or asynchronously loading scripts, optimizing CSS, and improving Core Web Vitals. The plugin includes enhanced features for better performance and security.
+Started as a personal project making my own optimization plugin. Nerd Delay optimizes WordPress sites by deferring or asynchronously loading scripts, optimizing CSS, and improving Core Web Vitals. I have looked at all the common features a lot of plugins seem to always have. The plugin includes enhanced features for better performance and security.
 
 ## Features
 
