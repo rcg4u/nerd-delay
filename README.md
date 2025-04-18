@@ -33,6 +33,11 @@ Nerd Delay optimizes WordPress sites by deferring or asynchronously loading scri
   - Backup and restore settings functionality.
   - Advanced script management with conditional loading.
 
+- **.htaccess Rule Management**
+  - Each `.htaccess` setting checks if it is already applied.
+  - Displays a message next to the toggle switch if the rule is active, including the line numbers where it is found in the `.htaccess` file.
+  - Prevents duplicate entries in the `.htaccess` file.
+
 ## Installation
 
 1. Upload the plugin files to the `/wp-content/plugins/nerd-delay` directory, or install the plugin through the WordPress plugins screen directly.
@@ -56,6 +61,7 @@ Use the export and import functionality in the settings page to backup and resto
 - Enhanced security with nonce verification for AJAX requests.
 - Improved user interface for selecting script and CSS loading options.
 - Updated version display on the settings screen.
+- Added `.htaccess` rule management to check for existing rules and display line numbers.
 
 ### 1.9.1
 - Initial release with basic script and CSS optimization features.
