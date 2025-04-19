@@ -58,6 +58,54 @@ function nerd_delay_settings_init() {
         'nerdDelay'
     );
 
+    add_settings_section(
+        'nerd_delay_htaccess_section',
+        __('Htaccess Optimizations', 'nerd-delay'),
+        'nerd_delay_htaccess_section_callback',
+        'nerdDelay'
+    );
+
+    function nerd_delay_htaccess_section_callback() {
+        echo '<div class="htaccess-warning" style="background-color: #ffebee; padding: 10px; border-radius: 4px; margin-bottom: 15px;">';
+        echo '<p><strong>' . __('Warning:', 'nerd-delay') . '</strong> ' . __('These settings directly modify your physical .htaccess file. Improper configuration may cause server errors.', 'nerd-delay') . '</p>';
+        echo '<button type="button" id="disable-all-htaccess" class="button button-secondary">' . __('Disable All Htaccess Options', 'nerd-delay') . '</button>';
+        echo '</div>';
+        
+        // Add JavaScript to handle the "Disable All" button
+        ?>
+        <script type="text/javascript">
+            jQuery(document).ready(function($) {
+                $('#disable-all-htaccess').on('click', function() {
+                    if (confirm('<?php echo esc_js(__('Are you sure you want to disable all .htaccess optimizations? This will update your settings but won\'t remove existing rules from your .htaccess file.', 'nerd-delay')); ?>')) {
+                        $('input[name^="nerd_delay_settings[htaccess_"]').prop('checked', false);
+                        alert('<?php echo esc_js(__('All .htaccess options have been disabled. Click "Save Changes" to apply.', 'nerd-delay')); ?>');
+                    }
+                });
+            });
+        </script>
+        <?php
+    }
+
+    add_action('admin_head', 'nerd_delay_htaccess_admin_styles');
+    function nerd_delay_htaccess_admin_styles() {
+        ?>
+        <style type="text/css">
+            .settings_page_nerd-delay #nerd_delay_htaccess_section,
+            .tools_page_nerd-delay-tools #nerd_delay_htaccess_section {
+                background-color: #ffebee;
+                padding: 15px;
+                border-radius: 4px;
+                margin-bottom: 20px;
+            }
+            #disable-all-htaccess {
+                margin-top: 10px;
+            }
+            .htaccess-warning {
+                margin-bottom: 15px;
+            }
+        </style>
+        <?php
+    }
     add_settings_field(
         'nerd_delay_field_defer',
         __('Defer Scripts', 'nerd-delay'),
@@ -120,7 +168,7 @@ function nerd_delay_settings_init() {
         __('Enable Gzip Compression', 'nerd-delay'),
         'nerd_delay_field_htaccess_gzip_render',
         'nerdDelay',
-        'nerd_delay_section'
+        'nerd_delay_htaccess_section'
     );
 
     add_settings_field(
@@ -128,15 +176,14 @@ function nerd_delay_settings_init() {
         __('Enable Browser Caching', 'nerd-delay'),
         'nerd_delay_field_htaccess_browser_caching_render',
         'nerdDelay',
-        'nerd_delay_section'
+        'nerd_delay_htaccess_section'
     );
-
     add_settings_field(
         'nerd_delay_field_htaccess_hsts',
         __('Enable HTTP Strict Transport Security (HSTS)', 'nerd-delay'),
         'nerd_delay_field_htaccess_hsts_render',
         'nerdDelay',
-        'nerd_delay_section'
+        'nerd_delay_htaccess_section'
     );
 
     add_settings_field(
@@ -144,7 +191,7 @@ function nerd_delay_settings_init() {
         __('Prevent Clickjacking', 'nerd-delay'),
         'nerd_delay_field_htaccess_clickjacking_render',
         'nerdDelay',
-        'nerd_delay_section'
+        'nerd_delay_htaccess_section'
     );
 
     add_settings_field(
@@ -152,7 +199,7 @@ function nerd_delay_settings_init() {
         __('Prevent MIME Sniffing', 'nerd-delay'),
         'nerd_delay_field_htaccess_mime_sniffing_render',
         'nerdDelay',
-        'nerd_delay_section'
+        'nerd_delay_htaccess_section'
     );
 
     add_settings_field(
@@ -160,7 +207,7 @@ function nerd_delay_settings_init() {
         __('Enable XSS Protection', 'nerd-delay'),
         'nerd_delay_field_htaccess_xss_protection_render',
         'nerdDelay',
-        'nerd_delay_section'
+        'nerd_delay_htaccess_section'
     );
 
     add_settings_field(
@@ -168,7 +215,7 @@ function nerd_delay_settings_init() {
         __('Disable Directory Browsing', 'nerd-delay'),
         'nerd_delay_field_htaccess_disable_directory_browsing_render',
         'nerdDelay',
-        'nerd_delay_section'
+        'nerd_delay_htaccess_section'
     );
 
     add_settings_field(
@@ -176,7 +223,7 @@ function nerd_delay_settings_init() {
         __('Block Sensitive Files', 'nerd-delay'),
         'nerd_delay_field_htaccess_block_sensitive_files_render',
         'nerdDelay',
-        'nerd_delay_section'
+        'nerd_delay_htaccess_section'
     );
 
     add_settings_field(
@@ -184,7 +231,7 @@ function nerd_delay_settings_init() {
         __('Redirect HTTP to HTTPS', 'nerd-delay'),
         'nerd_delay_field_htaccess_redirect_http_to_https_render',
         'nerdDelay',
-        'nerd_delay_section'
+        'nerd_delay_htaccess_section'
     );
 
     add_settings_field(
@@ -192,7 +239,7 @@ function nerd_delay_settings_init() {
         __('Prevent Hotlinking', 'nerd-delay'),
         'nerd_delay_field_htaccess_prevent_hotlinking_render',
         'nerdDelay',
-        'nerd_delay_section'
+        'nerd_delay_htaccess_section'
     );
 
     add_settings_field(
@@ -200,9 +247,8 @@ function nerd_delay_settings_init() {
         __('Block Bad Bots', 'nerd-delay'),
         'nerd_delay_field_htaccess_block_bad_bots_render',
         'nerdDelay',
-        'nerd_delay_section'
+        'nerd_delay_htaccess_section'
     );
-
     // Add new settings fields
     add_settings_field(
         'nerd_delay_field_disable_xml_rpc',
@@ -370,7 +416,7 @@ function nerd_delay_field_htaccess_gzip_render() {
     $is_activated = isset($options['htaccess_gzip']);
     nerd_delay_render_toggle_switch('nerd_delay_settings[htaccess_gzip]', $is_activated);
     ?>
-    <p class="description">Enable Gzip compression for faster page loads.</p>
+    <p class="description">Enable Gzip compression for faster page loads. <em>Modifies .htaccess file.</em></p>
     <?php
     $rules = "
 <IfModule mod_deflate.c>
@@ -381,7 +427,6 @@ function nerd_delay_field_htaccess_gzip_render() {
         echo '<span class="activated-message">Active on lines: ' . implode(', ', $lines) . '</span>';
     }
 }
-
 function nerd_delay_field_htaccess_browser_caching_render() {
     $options = get_option('nerd_delay_settings');
     $is_activated = isset($options['htaccess_browser_caching']);
@@ -1092,4 +1137,55 @@ function nerd_delay_get_rule_lines($rule) {
         }
     }
     return $lines;
+}
+
+// Add this function to handle removing rules when options are disabled
+function nerd_delay_maybe_remove_htaccess_rules($old_value, $value) {
+    $htaccess_options = [
+        'htaccess_gzip', 'htaccess_browser_caching', 'htaccess_hsts',
+        'htaccess_clickjacking', 'htaccess_mime_sniffing', 'htaccess_xss_protection',
+        'htaccess_disable_directory_browsing', 'htaccess_block_sensitive_files',
+        'htaccess_redirect_http_to_https', 'htaccess_prevent_hotlinking',
+        'htaccess_block_bad_bots'
+    ];
+    
+    foreach ($htaccess_options as $option) {
+        if (isset($old_value[$option]) && !isset($value[$option])) {
+            // Option was disabled, remove the corresponding rules
+            nerd_delay_remove_htaccess_rule($option);
+        }
+    }
+}
+add_action('update_option_nerd_delay_settings', 'nerd_delay_maybe_remove_htaccess_rules', 10, 2);
+
+function nerd_delay_remove_htaccess_rule($option) {
+    // Get the rule pattern based on the option
+    $rule_pattern = '';
+    switch ($option) {
+        case 'htaccess_gzip':
+            $rule_pattern = "<IfModule mod_deflate.c>";
+            break;
+        case 'htaccess_browser_caching':
+            $rule_pattern = "<IfModule mod_expires.c>";
+            break;
+        // Add cases for other options
+    }
+    
+    if (empty($rule_pattern)) {
+        return;
+    }
+    
+    $htaccess_file = ABSPATH . '.htaccess';
+    if (file_exists($htaccess_file) && is_writable($htaccess_file)) {
+        $htaccess_content = file_get_contents($htaccess_file);
+        
+        // Find and remove the rule block
+        $pattern = '/\s*' . preg_quote($rule_pattern, '/') . '.*?<\/IfModule>\s*/s';
+        $new_content = preg_replace($pattern, "\n", $htaccess_content);
+        
+        if ($new_content !== $htaccess_content) {
+            file_put_contents($htaccess_file, $new_content);
+            nerd_delay_log("Removed {$option} rules from .htaccess");
+        }
+    }
 }
