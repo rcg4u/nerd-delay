@@ -410,30 +410,40 @@ function nerd_delay_field_font_display_render() {
         echo '<span class="activated-message">Active</span>';
     }
 }
-// Render functions for new settings fields
+// First, let's create a new function to render the htaccess buttons
+function nerd_delay_render_htaccess_button($option_name, $rule, $description) {
+    $lines = nerd_delay_get_rule_lines($rule);
+    $is_active = !empty($lines);
+    
+    echo '<div class="nerd-delay-htaccess-option">';
+    
+    if ($is_active) {
+        echo '<button type="button" class="button button-disabled" disabled>' . __('Already Added', 'nerd-delay') . '</button>';
+        echo '<span class="activated-message">Active on lines: ' . implode(', ', $lines) . '</span>';
+    } else {
+        echo '<button type="button" class="button button-primary add-htaccess-rule" data-option="' . esc_attr($option_name) . '">' . 
+             __('Add to .htaccess', 'nerd-delay') . '</button>';
+    }
+    
+    echo '<p class="description">' . $description . ' <em>' . __('Modifies .htaccess file.', 'nerd-delay') . '</em></p>';
+    echo '</div>';
+}
+
+// Now, let's update each htaccess render function to use this new approach
 function nerd_delay_field_htaccess_gzip_render() {
-    $options = get_option('nerd_delay_settings');
-    $is_activated = isset($options['htaccess_gzip']);
-    nerd_delay_render_toggle_switch('nerd_delay_settings[htaccess_gzip]', $is_activated);
-    ?>
-    <p class="description">Enable Gzip compression for faster page loads. <em>Modifies .htaccess file.</em></p>
-    <?php
     $rules = "
 <IfModule mod_deflate.c>
     AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css application/javascript application/json
 </IfModule>";
-    $lines = nerd_delay_get_rule_lines($rules);
-    if (!empty($lines)) {
-        echo '<span class="activated-message">Active on lines: ' . implode(', ', $lines) . '</span>';
-    }
+    
+    nerd_delay_render_htaccess_button(
+        'htaccess_gzip',
+        $rules,
+        __('Enable Gzip compression for faster page loads.', 'nerd-delay')
+    );
 }
+
 function nerd_delay_field_htaccess_browser_caching_render() {
-    $options = get_option('nerd_delay_settings');
-    $is_activated = isset($options['htaccess_browser_caching']);
-    nerd_delay_render_toggle_switch('nerd_delay_settings[htaccess_browser_caching]', $is_activated);
-    ?>
-    <p class="description">Enable browser caching to improve load times.</p>
-    <?php
     $rules = "
 <IfModule mod_expires.c>
     ExpiresActive On
@@ -441,149 +451,129 @@ function nerd_delay_field_htaccess_browser_caching_render() {
     ExpiresByType application/javascript \"access plus 1 month\"
     ExpiresByType image/jpeg \"access plus 1 year\"
 </IfModule>";
-    $lines = nerd_delay_get_rule_lines($rules);
-    if (!empty($lines)) {
-        echo '<span class="activated-message">Active on lines: ' . implode(', ', $lines) . '</span>';
-    }
+    
+    nerd_delay_render_htaccess_button(
+        'htaccess_browser_caching',
+        $rules,
+        __('Enable browser caching to improve load times.', 'nerd-delay')
+    );
 }
 
 function nerd_delay_field_htaccess_hsts_render() {
-    $options = get_option('nerd_delay_settings');
-    $is_activated = isset($options['htaccess_hsts']);
-    nerd_delay_render_toggle_switch('nerd_delay_settings[htaccess_hsts]', $is_activated);
-    ?>
-    <p class="description">Enable HTTP Strict Transport Security (HSTS) for secure connections.</p>
-    <?php
     $rules = "Header always set Strict-Transport-Security \"max-age=31536000; includeSubDomains\"";
-    $lines = nerd_delay_get_rule_lines($rules);
-    if (!empty($lines)) {
-        echo '<span class="activated-message">Active on lines: ' . implode(', ', $lines) . '</span>';
-    }
+    
+    nerd_delay_render_htaccess_button(
+        'htaccess_hsts',
+        $rules,
+        __('Enable HTTP Strict Transport Security (HSTS) for secure connections.', 'nerd-delay')
+    );
 }
 
 function nerd_delay_field_htaccess_clickjacking_render() {
-    $options = get_option('nerd_delay_settings');
-    $is_activated = isset($options['htaccess_clickjacking']);
-    nerd_delay_render_toggle_switch('nerd_delay_settings[htaccess_clickjacking]', $is_activated);
-    ?>
-    <p class="description">Prevent clickjacking attacks by setting X-Frame-Options headers.</p>
-    <?php
     $rules = "Header always append X-Frame-Options SAMEORIGIN";
-    $lines = nerd_delay_get_rule_lines($rules);
-    if (!empty($lines)) {
-        echo '<span class="activated-message">Active on lines: ' . implode(', ', $lines) . '</span>';
-    }
+    
+    nerd_delay_render_htaccess_button(
+        'htaccess_clickjacking',
+        $rules,
+        __('Prevent clickjacking attacks by setting X-Frame-Options headers.', 'nerd-delay')
+    );
 }
 
 function nerd_delay_field_htaccess_mime_sniffing_render() {
-    $options = get_option('nerd_delay_settings');
-    $is_activated = isset($options['htaccess_mime_sniffing']);
-    nerd_delay_render_toggle_switch('nerd_delay_settings[htaccess_mime_sniffing]', $is_activated);
-    ?>
-    <p class="description">Prevent MIME sniffing by setting X-Content-Type-Options headers.</p>
-    <?php
     $rules = "Header set X-Content-Type-Options nosniff";
-    $lines = nerd_delay_get_rule_lines($rules);
-    if (!empty($lines)) {
-        echo '<span class="activated-message">Active on lines: ' . implode(', ', $lines) . '</span>';
-    }
+    
+    nerd_delay_render_htaccess_button(
+        'htaccess_mime_sniffing',
+        $rules,
+        __('Prevent MIME sniffing by setting X-Content-Type-Options headers.', 'nerd-delay')
+    );
 }
 
 function nerd_delay_field_htaccess_xss_protection_render() {
-    $options = get_option('nerd_delay_settings');
-    $is_activated = isset($options['htaccess_xss_protection']);
-    nerd_delay_render_toggle_switch('nerd_delay_settings[htaccess_xss_protection]', $is_activated);
-    ?>
-    <p class="description">Enable XSS protection by setting X-XSS-Protection headers.</p>
-    <?php
     $rules = "Header set X-XSS-Protection \"1; mode=block\"";
-    $lines = nerd_delay_get_rule_lines($rules);
-    if (!empty($lines)) {
-        echo '<span class="activated-message">Active on lines: ' . implode(', ', $lines) . '</span>';
-    }
+    
+    nerd_delay_render_htaccess_button(
+        'htaccess_xss_protection',
+        $rules,
+        __('Enable XSS protection by setting X-XSS-Protection headers.', 'nerd-delay')
+    );
 }
 
 function nerd_delay_field_htaccess_disable_directory_browsing_render() {
-    $options = get_option('nerd_delay_settings');
-    $is_activated = isset($options['htaccess_disable_directory_browsing']);
-    nerd_delay_render_toggle_switch('nerd_delay_settings[htaccess_disable_directory_browsing]', $is_activated);
-    ?>
-    <p class="description">Disable directory browsing for security.</p>
-    <?php
     $rules = "Options -Indexes";
-    $lines = nerd_delay_get_rule_lines($rules);
-    if (!empty($lines)) {
-        echo '<span class="activated-message">Active on lines: ' . implode(', ', $lines) . '</span>';
-    }
+    
+    nerd_delay_render_htaccess_button(
+        'htaccess_disable_directory_browsing',
+        $rules,
+        __('Disable directory browsing for security.', 'nerd-delay')
+    );
 }
 
 function nerd_delay_field_htaccess_block_sensitive_files_render() {
-    $options = get_option('nerd_delay_settings');
-    $is_activated = isset($options['htaccess_block_sensitive_files']);
-    nerd_delay_render_toggle_switch('nerd_delay_settings[htaccess_block_sensitive_files]', $is_activated);
-    ?>
-    <p class="description">Block access to sensitive files like .htaccess, .ini, etc.</p>
-    <?php
     $rules = "
 <FilesMatch \"\\.(htaccess|htpasswd|ini|log|sh|bak|sql|swp|dist)$\">
     Order allow,deny
     Deny from all
 </FilesMatch>";
-    $lines = nerd_delay_get_rule_lines($rules);
-    if (!empty($lines)) {
-        echo '<span class="activated-message">Active on lines: ' . implode(', ', $lines) . '</span>';
-    }
+    
+    nerd_delay_render_htaccess_button(
+        'htaccess_block_sensitive_files',
+        $rules,
+        __('Block access to sensitive files like .htaccess, .ini, etc.', 'nerd-delay')
+    );
 }
 
 function nerd_delay_field_htaccess_redirect_http_to_https_render() {
-    $options = get_option('nerd_delay_settings');
-    $is_activated = isset($options['htaccess_redirect_http_to_https']);
-    nerd_delay_render_toggle_switch('nerd_delay_settings[htaccess_redirect_http_to_https]', $is_activated);
-    ?>
-    <p class="description">Redirect all HTTP traffic to HTTPS.</p>
-    <?php
     $rules = "
 RewriteCond %{HTTPS} off
 RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]";
-    $lines = nerd_delay_get_rule_lines($rules);
-    if (!empty($lines)) {
-        echo '<span class="activated-message">Active on lines: ' . implode(', ', $lines) . '</span>';
-    }
+    
+    nerd_delay_render_htaccess_button(
+        'htaccess_redirect_http_to_https',
+        $rules,
+        __('Redirect all HTTP traffic to HTTPS.', 'nerd-delay')
+    );
 }
 
 function nerd_delay_field_htaccess_prevent_hotlinking_render() {
-    $options = get_option('nerd_delay_settings');
-    $is_activated = isset($options['htaccess_prevent_hotlinking']);
-    nerd_delay_render_toggle_switch('nerd_delay_settings[htaccess_prevent_hotlinking]', $is_activated);
-    ?>
-    <p class="description">Prevent hotlinking of images and other resources.</p>
-    <?php
+    $site_domain = parse_url(site_url(), PHP_URL_HOST);
     $rules = "
 RewriteCond %{HTTP_REFERER} !^$
-RewriteCond %{HTTP_REFERER} !^https?://(www\\.)?yourdomain\\.com [NC]
+RewriteCond %{HTTP_REFERER} !^https?://(www\\.)?" . preg_quote($site_domain, '/') . " [NC]
 RewriteRule \\.(jpg|jpeg|png|gif|svg|webp)$ - [F,NC]";
-    $lines = nerd_delay_get_rule_lines($rules);
-    if (!empty($lines)) {
-        echo '<span class="activated-message">Active on lines: ' . implode(', ', $lines) . '</span>';
-    }
+    
+    nerd_delay_render_htaccess_button(
+        'htaccess_prevent_hotlinking',
+        $rules,
+        __('Prevent hotlinking of images and other resources.', 'nerd-delay')
+    );
 }
 
 function nerd_delay_field_htaccess_block_bad_bots_render() {
-    $options = get_option('nerd_delay_settings');
-    $is_activated = isset($options['htaccess_block_bad_bots']);
-    nerd_delay_render_toggle_switch('nerd_delay_settings[htaccess_block_bad_bots]', $is_activated);
-    ?>
-    <p class="description">Block bad bots from accessing your site.</p>
-    <?php
     $rules = "
 RewriteCond %{HTTP_USER_AGENT} (?:bot|spider|crawler|wget|curl|scraper) [NC]
 RewriteRule .* - [F,L]";
-    $lines = nerd_delay_get_rule_lines($rules);
-    if (!empty($lines)) {
-        echo '<span class="activated-message">Active on lines: ' . implode(', ', $lines) . '</span>';
-    }
+    
+    nerd_delay_render_htaccess_button(
+        'htaccess_block_bad_bots',
+        $rules,
+        __('Block bad bots from accessing your site.', 'nerd-delay')
+    );
 }
-function nerd_delay_field_disable_xml_rpc_render() {
+
+// Now, let's add AJAX handling for adding rules to .htaccess
+add_action('admin_enqueue_scripts', 'nerd_delay_enqueue_htaccess_scripts');
+function nerd_delay_enqueue_htaccess_scripts($hook) {
+    if ($hook === 'settings_page_nerd-delay' || $hook === 'tools_page_nerd-delay-tools') {
+        wp_enqueue_script('nerd-delay-htaccess', plugin_dir_url(__FILE__) . 'assets/js/htaccess.js', array('jquery'), NERD_DELAY_VERSION, true);
+        wp_localize_script('nerd-delay-htaccess', 'nerdDelayHtaccess', array(
+            'ajaxurl' => admin_url('admin-ajax.php'),
+            'nonce' => wp_create_nonce('nerd_delay_htaccess_nonce'),
+            'success' => __('Rule added to .htaccess successfully!', 'nerd-delay'),
+            'error' => __('Error adding rule to .htaccess. Please check file permissions.', 'nerd-delay')
+        ));
+    }
+}function nerd_delay_field_disable_xml_rpc_render() {
     $options = get_option('nerd_delay_settings');
     nerd_delay_render_toggle_switch('nerd_delay_settings[disable_xml_rpc]', isset($options['disable_xml_rpc']));
     ?>
@@ -1168,7 +1158,33 @@ function nerd_delay_remove_htaccess_rule($option) {
         case 'htaccess_browser_caching':
             $rule_pattern = "<IfModule mod_expires.c>";
             break;
-        // Add cases for other options
+        case 'htaccess_hsts':
+            $rule_pattern = "# HSTS (HTTP Strict Transport Security)";
+            break;
+        case 'htaccess_clickjacking':
+            $rule_pattern = "# Protect against clickjacking";
+            break;
+        case 'htaccess_mime_sniffing':
+            $rule_pattern = "# Disable MIME-type sniffing";
+            break;
+        case 'htaccess_xss_protection':
+            $rule_pattern = "# Enable XSS protection";
+            break;
+        case 'htaccess_disable_directory_browsing':
+            $rule_pattern = "# Disable directory browsing";
+            break;
+        case 'htaccess_block_sensitive_files':
+            $rule_pattern = "# Block access to sensitive files";
+            break;
+        case 'htaccess_redirect_http_to_https':
+            $rule_pattern = "# Redirect HTTP to HTTPS";
+            break;
+        case 'htaccess_prevent_hotlinking':
+            $rule_pattern = "# Prevent image hotlinking";
+            break;
+        case 'htaccess_block_bad_bots':
+            $rule_pattern = "# Block bad bots";
+            break;
     }
     
     if (empty($rule_pattern)) {

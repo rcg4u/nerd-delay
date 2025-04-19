@@ -35,11 +35,11 @@ Nerd Delay optimizes WordPress sites by deferring or asynchronously loading scri
 
 - **.htaccess Rule Management**
   - Dedicated section for `.htaccess` optimizations with visual warning indicators.
-  - Each `.htaccess` setting checks if it is already applied.
-  - Displays a message next to the toggle switch if the rule is active, including the line numbers where it is found in the `.htaccess` file.
-  - Prevents duplicate entries in the `.htaccess` file.
-  - "Disable All" button to quickly turn off all `.htaccess` modifications.
-  - Safety measures to prevent server configuration issues.
+  - One-click "Add to .htaccess" buttons that prevent duplicate entries.
+  - Each rule shows active status with exact line numbers in the `.htaccess` file.
+  - "Remove All Rules" button to quickly clean up all Nerd Delay entries from `.htaccess`.
+  - Real-time validation and feedback when adding rules.
+  - Enhanced safety measures to prevent server configuration issues.
 
 ## Installation
 
@@ -59,17 +59,26 @@ Use the export and import functionality in the settings page to backup and resto
 
 ### Are the .htaccess modifications safe?
 
-The plugin includes safety measures for `.htaccess` modifications, including:
+The plugin includes several safety measures for `.htaccess` modifications:
+- One-click "Add to .htaccess" buttons that prevent duplicate entries
 - Visual indicators showing which rules are active and their line numbers
 - A dedicated section with warning colors to highlight potential impact
-- A "Disable All" button to quickly turn off all `.htaccess` modifications
-- Careful rule management to prevent duplicate entries
+- A "Remove All Rules" button to quickly clean up all Nerd Delay entries
+- Real-time validation and feedback when adding rules
+
+### What if I need to remove a specific rule from .htaccess?
+
+Each rule shows its exact line numbers in the `.htaccess` file. You can either:
+1. Use the "Remove All Rules" button and then selectively re-add the ones you want to keep
+2. Manually edit your `.htaccess` file to remove specific lines
 
 ## Changelog
 
 ### 1.9.4
+- Replaced toggle switches with one-click "Add to .htaccess" buttons for safer rule management
 - Added dedicated section for `.htaccess` optimizations with visual warning indicators
-- Implemented "Disable All" button for `.htaccess` settings
+- Implemented "Remove All Rules" button for `.htaccess` settings
+- Added real-time validation and line number display for active rules
 - Improved safety measures for server configuration modifications
 - Enhanced UI with color-coded sections for different types of optimizations
 
