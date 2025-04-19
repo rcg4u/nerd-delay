@@ -34,9 +34,12 @@ Nerd Delay optimizes WordPress sites by deferring or asynchronously loading scri
   - Advanced script management with conditional loading.
 
 - **.htaccess Rule Management**
+  - Dedicated section for `.htaccess` optimizations with visual warning indicators.
   - Each `.htaccess` setting checks if it is already applied.
   - Displays a message next to the toggle switch if the rule is active, including the line numbers where it is found in the `.htaccess` file.
   - Prevents duplicate entries in the `.htaccess` file.
+  - "Disable All" button to quickly turn off all `.htaccess` modifications.
+  - Safety measures to prevent server configuration issues.
 
 ## Installation
 
@@ -54,7 +57,21 @@ Navigate to the Settings->Nerd Delay screen in your WordPress admin dashboard to
 
 Use the export and import functionality in the settings page to backup and restore your plugin settings.
 
+### Are the .htaccess modifications safe?
+
+The plugin includes safety measures for `.htaccess` modifications, including:
+- Visual indicators showing which rules are active and their line numbers
+- A dedicated section with warning colors to highlight potential impact
+- A "Disable All" button to quickly turn off all `.htaccess` modifications
+- Careful rule management to prevent duplicate entries
+
 ## Changelog
+
+### 1.9.4
+- Added dedicated section for `.htaccess` optimizations with visual warning indicators
+- Implemented "Disable All" button for `.htaccess` settings
+- Improved safety measures for server configuration modifications
+- Enhanced UI with color-coded sections for different types of optimizations
 
 ### 1.9.3
 - Added AJAX functionality for scanning and managing scripts and CSS.
